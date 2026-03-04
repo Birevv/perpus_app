@@ -39,6 +39,7 @@ if (!isset($_SESSION['username'])) {
                     <th>ISBN</th>
                     <th>Tanggal Pinjam</th>
                     <th>Tanggal Kembali</th>
+                    <th>Status</th>
                     <th>Aksi</th>
                 </tr>
                 <?php
@@ -52,6 +53,7 @@ if (!isset($_SESSION['username'])) {
                         <td><?= $data['isbn']; ?></td>
                         <td><?= $data['tgl_pinjam']; ?></td>
                         <td><?= $data['tgl_kembali']; ?></td>
+                        <td><?= $data['status']; ?></td>
                         <td>
                             <a href="peminjaman_edit.php?id_peminjaman=<?= $data['id_peminjaman']; ?>" class="btn-action edit">Edit</a>
                             <a href="peminjaman_hapus.php?id_peminjaman=<?= $data['id_peminjaman']; ?>" class="btn-action delete">Hapus</a>
@@ -62,7 +64,7 @@ if (!isset($_SESSION['username'])) {
                 ?>
             </table>
             <div class="tombol-tambah">
-                <a href="buku_tambah.php" class="btn-tambah">+ Tambah Data</a>
+                <a href="form_peminjaman.php" class="btn-tambah">+ Tambah Data</a>
             </div>
         </div>
     </main>
