@@ -38,7 +38,7 @@ if (!isset($_SESSION['username'])) {
             <div class="tombol-tambah">
                 <a href="buku_tambah.php" class="btn-tambah">+ Tambah Data</a>
             </div>
-            <table border="1" cellpadding="10" cellspacing="0" class="tabel" text>
+            <table border="1" cellpadding="10" cellspacing="0" class="tabel">
                 <tr>
                     <th>ISBN</th>
                     <th>Judul Buku</th>
@@ -46,6 +46,7 @@ if (!isset($_SESSION['username'])) {
                     <th>Penerbit</th>
                     <th>Tahun</th>
                     <th>Genre</th>
+                    <th>Stok</th>
                     <th>Aksi</th>
                 </tr>
 
@@ -62,9 +63,12 @@ if (!isset($_SESSION['username'])) {
                         <td><?= $data['penerbit']; ?></td>
                         <td><?= $data['tahun']; ?></td>
                         <td><?= $data['genre']; ?></td>
-                        <td class="action-cell">
-                            <a href="buku_edit.php?isbn=<?= $data['isbn']; ?>" class="btn-action edit">Edit</a>
-                            <a href="buku_hapus.php?isbn=<?= $data['isbn']; ?>" class="btn-action delete">Hapus</a>
+                        <td><?= $data['stok'] ?></td>
+                        <td>
+                            <div class="action-cell">
+                                <a href="buku_edit.php?isbn=<?= $data['isbn']; ?>" class="btn-action edit">Edit</a>
+                                <a href="buku_hapus.php?isbn=<?= $data['isbn']; ?>" class="btn-action delete">Hapus</a>
+                            </div>
                         </td>
                     </tr>
                 <?php

@@ -19,39 +19,48 @@ if (!isset($_SESSION['username'])) {
 </head>
 
 <body class="crud-body">
-    <main class="crud-container">
+    <main class="crud-container book-form-container">
         <h1>Tambah Data Buku</h1>
+        <p class="form-subtitle">Lengkapi informasi buku baru sebelum disimpan ke katalog perpustakaan.</p>
 
-        <form action="buku_tambah_aksi.php" method="post" class="crud-form">
+        <form action="buku_tambah_aksi.php" method="post" class="crud-form book-form">
+            <div class="book-form-grid">
+                <div class="form-group">
+                    <label for="isbn">ISBN</label>
+                    <input type="text" id="isbn" name="isbn" placeholder="Contoh: 9786020324789" inputmode="numeric" required>
+                    <small class="field-hint">Gunakan kode ISBN yang unik untuk setiap buku.</small>
+                </div>
 
-            <div class="form-group">
-                <label for="isbn">ISBN</label>
-                <input type="text" id="isbn" name="isbn" placeholder="ISBN" required>
-            </div>
+                <div class="form-group">
+                    <label for="stok">Stok</label>
+                    <input type="number" id="stok" name="stok" placeholder="0" min="0" required>
+                    <small class="field-hint">Jumlah buku yang tersedia untuk dipinjam.</small>
+                </div>
 
-            <div class="form-group">
-                <label for="judul">Judul Buku</label>
-                <input type="text" id="judul" name="judul" placeholder="Judul Buku" required>
-            </div>
+                <div class="form-group full-width">
+                    <label for="judul">Judul Buku</label>
+                    <input type="text" id="judul" name="judul" placeholder="Masukkan judul buku" required>
+                </div>
 
-            <div class="form-group">
-                <label for="pengarang">Pengarang</label>
-                <input type="text" id="pengarang" name="pengarang" placeholder="Pengarang" required>
-            </div>
+                <div class="form-group">
+                    <label for="pengarang">Pengarang</label>
+                    <input type="text" id="pengarang" name="pengarang" placeholder="Nama pengarang" required>
+                </div>
 
-            <div class="form-group">
-                <label for="penerbit">Penerbit</label>
-                <input type="text" id="penerbit" name="penerbit" placeholder="Penerbit" required>
-            </div>
+                <div class="form-group">
+                    <label for="genre">Genre</label>
+                    <input type="text" id="genre" name="genre" placeholder="Contoh: Novel, Sejarah, Teknologi" required>
+                </div>
 
-            <div class="form-group">
-                <label for="tahun">Tahun</label>
-                <input type="text" id="tahun" name="tahun" placeholder="Tahun" required>
-            </div>
+                <div class="form-group full-width">
+                    <label for="penerbit">Penerbit</label>
+                    <input type="text" id="penerbit" name="penerbit" placeholder="Nama penerbit" required>
+                </div>
 
-            <div class="form-group">
-                <label for="genre">Genre</label>
-                <input type="text" id="genre" name="genre" placeholder="Genre" required>
+                <div class="form-group">
+                    <label for="tahun">Tahun Terbit</label>
+                    <input type="number" id="tahun" name="tahun" placeholder="2025" min="1900" max="<?= date('Y'); ?>" required>
+                </div>
             </div>
 
             <div class="form-action">

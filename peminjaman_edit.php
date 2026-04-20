@@ -1,5 +1,10 @@
 <?php
 session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: index.php");
+    exit;
+}
+
 include 'koneksi.php';
 
 $id = $_GET['id_peminjaman'];
@@ -13,23 +18,52 @@ if (!$data) {
 }
 ?>
 
-<h3>Edit Peminjaman Buku</h3>
+<!DOCTYPE html>
+<html lang="id">
 
-<form action="peminjaman_edit_aksi.php" method="post">
-    <input type="hidden" name="id_peminjaman" value="<?= $data['id_peminjaman']; ?>">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Peminjaman</title>
 
-    <label>Anggota</label><br>
-    <input type="text" name="id_anggota" value="<?= $data['id_anggota']; ?>" readonly><br><br>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
 
-    <label>ISBN Buku</label><br>
-    <input type="text" name="isbn" value="<?= $data['isbn']; ?>" readonly><br><br>
+<body class="crud-body">
+    <main class="crud-container">
+        <h1>Edit Peminjaman Buku</h1>
 
-    <label>Tanggal Pinjam</label><br>
-    <input type="date" name="tgl_pinjam" value="<?= $data['tgl_pinjam']; ?>" required><br><br>
+        <form action="peminjaman_edit_aksi.php" method="post" class="crud-form">
+            <input type="hidden" name="id_peminjaman" value="<?= $data['id_peminjaman']; ?>">
 
-    <label>Tanggal Kembali</label><br>
-    <input type="date" name="tgl_kembali" value="<?= $data['tgl_kembali']; ?>"><br><br>
+            <div class="form-group">
+                <label>Anggota</label>
+                <input type="text" name="id_anggota" value="<?= $data['id_anggota']; ?>" readonly>
+            </div>
 
-    <button type="submit">Update</button>
-    <a href="peminjaman.php">Batal</a>
-</form>
+            <div class="form-group">
+                <label>ISBN Buku</label>
+                <input type="text" name="isbn" value="<?= $data['isbn']; ?>" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>Tanggal Pinjam</label>
+                <input type="date" name="tgl_pinjam" value="<?= $data['tgl_pinjam']; ?>" required>
+            </div>
+
+            <div class="form-group">
+                <label>Tanggal Kembali</label>
+                <input type="date" name="tgl_kembali" value="<?= $data['tgl_kembali']; ?>">
+            </div>
+
+            <div class="form-action">
+                <button type="submit" class="btn-submit">Update</button>
+                <a href="peminjaman.php" class="btn-back">Kembali</a>
+            </div>
+
+        </form>
+    </main>
+</body>
+
+</html>

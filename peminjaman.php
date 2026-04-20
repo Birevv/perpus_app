@@ -32,6 +32,9 @@ if (!isset($_SESSION['username'])) {
     <main>
         <div class="main">
             <h2>Data Peminjaman</h2>
+            <div class="tombol-tambah">
+                <a href="form_peminjaman.php" class="btn-tambah">+ Tambah Data</a>
+            </div>
             <table border="1" cellpadding="10" cellspacing="0" class="tabel">
                 <tr>
                     <th>Id Peminjaman</th>
@@ -41,6 +44,7 @@ if (!isset($_SESSION['username'])) {
                     <th>Tanggal Kembali</th>
                     <th>Status</th>
                     <th>Aksi</th>
+                    <th>Opsi</th>
                 </tr>
                 <?php
                 include 'koneksi.php';
@@ -52,20 +56,33 @@ if (!isset($_SESSION['username'])) {
                         <td><?= $data['id_anggota']; ?></td>
                         <td><?= $data['isbn']; ?></td>
                         <td><?= $data['tgl_pinjam']; ?></td>
-                        <td><?= $data['tgl_kembali']; ?></td>
-                        <td><?= $data['status']; ?></td>
+                        <td><?= $data['tgl_kembali'] ?: '-'; ?></td>
                         <td>
-                            <a href="peminjaman_edit.php?id_peminjaman=<?= $data['id_peminjaman']; ?>" class="btn-action edit">Edit</a>
-                            <a href="peminjaman_hapus.php?id_peminjaman=<?= $data['id_peminjaman']; ?>" class="btn-action delete">Hapus</a>
+                            <span class="status-badge status-<?= strtolower($data['status'] ?: 'dipinjam'); ?>">
+                                <?= $data['status'] ?: 'Dipinjam'; ?>
+                            </span>
+                        </td>
+                        <td>
+                            <div class="action-cell">
+                                <a href="peminjaman_edit.php?id_peminjaman=<?= $data['id_peminjaman']; ?>" class="btn-action edit">Edit</a>
+                                <a href="peminjaman_hapus.php?id_peminjaman=<?= $data['id_peminjaman']; ?>" class="btn-action delete">Hapus</a>
+                            </div>
+                        </td>
+                        <td class="option-cell">
+                            <?php if (empty($data['status']) || strtolower($data['status']) === 'dipinjam'): ?>
+                                <form action="peminjaman_kembalikan.php" method="post" class="inline-action-form" onsubmit="return confirm('Konfirmasi pengembalian buku?')">
+                                    <input type="hidden" name="id_peminjaman" value="<?= $data['id_peminjaman']; ?>">
+                                    <button type="submit" class="btn-action return">Kembalikan</button>
+                                </form>
+                            <?php else: ?>
+                                -
+                            <?php endif; ?>
                         </td>
                     </tr>
                 <?php
                 }
                 ?>
             </table>
-            <div class="tombol-tambah">
-                <a href="form_peminjaman.php" class="btn-tambah">+ Tambah Data</a>
-            </div>
         </div>
     </main>
 
