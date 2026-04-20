@@ -2,8 +2,13 @@
 session_start();
 include 'koneksi.php';
 
-$username = mysqli_real_escape_string($koneksi, $_POST['username']);
-$password = mysqli_real_escape_string($koneksi, $_POST['password']);
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header("Location: index.php");
+    exit;
+}
+
+$username = mysqli_real_escape_string($koneksi, trim($_POST['username'] ?? ''));
+$password = mysqli_real_escape_string($koneksi, trim($_POST['password'] ?? ''));
 
 $query = "SELECT * FROM user
           WHERE username = '$username'
@@ -28,8 +33,7 @@ if (mysqli_num_rows($result) == 1) {
     exit;
 
 } else {
-    echo "Username Atau Password Salah";
+    header("Location: index.php?error=login");
+    exit;
 }
-
-
 

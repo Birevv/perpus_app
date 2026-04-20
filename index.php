@@ -1,3 +1,22 @@
+<?php
+session_start();
+
+if (isset($_SESSION['username'])) {
+    if (($_SESSION['level'] ?? '') === 'admin') {
+        header("Location: dashboard.php");
+    } elseif (($_SESSION['level'] ?? '') === 'pegawai') {
+        header("Location: dashboard_pegawai.php");
+    } elseif (($_SESSION['level'] ?? '') === 'user') {
+        header("Location: dashboard_pengunjung.php");
+    } else {
+        header("Location: logout.php");
+    }
+    exit();
+}
+
+$login_error = ($_GET['error'] ?? '') === 'login';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,24 +28,21 @@
     <title>Login</title>
 </head>
 
-<?php
-session_start();
-if (isset($_SESSION['username'])) {
-    header("Location: index.php");
-    exit();
-}
-?>
-
 <body class="login-body">
     <div class="container">
         <div class="form-box" id="login-form">
             <h1>Login</h1>
+            <?php if ($login_error): ?>
+                <div class="login-alert" role="alert">
+                    Username/Password yang anda masukan salah!
+                </div>
+            <?php endif; ?>
             <form action="login_aksi.php" method="post">
                 <input type="text" name="username" placeholder="Username" required>
-                <input type="password" name="password" placeholder="password" id="">
+                <input type="password" name="password" placeholder="Password" required>
                 <input type="submit" value="Login" class="btn">
             </form>
         </div>
     </div>
-
+</body>
 </html>
