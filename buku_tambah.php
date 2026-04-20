@@ -18,7 +18,7 @@ if (!isset($_SESSION['username'])) {
     <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="crud-body">
+<body class="crud-body book-form-page">
     <main class="crud-container book-form-container">
         <h1>Tambah Data Buku</h1>
         <p class="form-subtitle">Lengkapi informasi buku baru sebelum disimpan ke katalog perpustakaan.</p>

@@ -25,7 +25,7 @@ if (!isset($_SESSION['username'])) {
             <li><a href="buku.php">Buku</a></li>
             <li><a href="pegawai.php">Pegawai</a></li>
             <li><a href="pengunjung.php">Pengunjung</a></li>
-            <li><a href="peminjaman.php">Peminjaman</a></li>
+            <li><a href="peminjaman.php" class="active">Peminjaman</a></li>
             <li><a href="logout.php">Logout</a></li>
         </ul>
     </aside>
