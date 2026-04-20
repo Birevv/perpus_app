@@ -647,6 +647,31 @@ input {
   margin-bottom: 0;
 }
 
+.dashboard-search-button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #0072ff, #0058cc);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: "Poppins", serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 8px 16px rgba(0, 114, 255, 0.18);
+}
+
+.dashboard-search-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 22px rgba(0, 114, 255, 0.22);
+  background: linear-gradient(135deg, #0068eb, #004db4);
+}
+
+.dashboard-search-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+}
+
 .katalog-page {
   background: #ffffff;
   border: 1px solid #edf2f7;
