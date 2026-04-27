@@ -5,6 +5,11 @@ if (!isset($_SESSION['username'])) {
     exit;
 }
 
+if (!in_array($_SESSION['level'] ?? '', ['admin', 'pegawai'], true)) {
+    header("Location: dashboard_pengunjung.php");
+    exit;
+}
+
 include 'koneksi.php';
 
 $id = $_GET['id_peminjaman'];

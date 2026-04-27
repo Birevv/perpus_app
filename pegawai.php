@@ -4,6 +4,17 @@ if (!isset($_SESSION['username'])) {
     header("Location: index.php");
     exit;
 }
+
+if (($_SESSION['level'] ?? '') !== 'admin') {
+    if (($_SESSION['level'] ?? '') === 'pegawai') {
+        header("Location: dashboard_pegawai.php");
+    } elseif (($_SESSION['level'] ?? '') === 'user') {
+        header("Location: dashboard_pengunjung.php");
+    } else {
+        header("Location: index.php");
+    }
+    exit;
+}
 ?>
 
 <!DOCTYPE html>

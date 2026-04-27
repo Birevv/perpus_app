@@ -4,6 +4,13 @@ if (!isset($_SESSION['username'])) {
     header("Location: index.php");
     exit;
 }
+
+if (!in_array($_SESSION['level'] ?? '', ['admin', 'pegawai'], true)) {
+    header("Location: dashboard_pengunjung.php");
+    exit;
+}
+
+$is_pegawai = ($_SESSION['level'] ?? '') === 'pegawai';
 ?>
 
 <!DOCTYPE html>
@@ -21,10 +28,12 @@ if (!isset($_SESSION['username'])) {
     <aside>
         <h1>Library</h1>
         <ul class="sidebar-menu">
-            <li><a href="dashboard.php">Dashboard</a></li>
-            <li><a href="buku.php">Buku</a></li>
-            <li><a href="pegawai.php">Pegawai</a></li>
-            <li><a href="pengunjung.php">Pengunjung</a></li>
+            <li><a href="<?= $is_pegawai ? 'dashboard_pegawai.php' : 'dashboard.php'; ?>">Dashboard</a></li>
+            <li><a href="<?= $is_pegawai ? 'buku_pegawai.php' : 'buku.php'; ?>">Buku</a></li>
+            <?php if (!$is_pegawai): ?>
+                <li><a href="pegawai.php">Pegawai</a></li>
+                <li><a href="pengunjung.php">Pengunjung</a></li>
+            <?php endif; ?>
             <li><a href="peminjaman.php" class="active">Peminjaman</a></li>
             <li><a href="logout.php">Logout</a></li>
         </ul>

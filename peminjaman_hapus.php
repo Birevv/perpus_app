@@ -1,4 +1,15 @@
 <?php
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: index.php");
+    exit;
+}
+
+if (!in_array($_SESSION['level'] ?? '', ['admin', 'pegawai'], true)) {
+    header("Location: dashboard_pengunjung.php");
+    exit;
+}
+
 include 'koneksi.php';
 
 $id_peminjaman = mysqli_real_escape_string($koneksi, $_GET['id_peminjaman']);

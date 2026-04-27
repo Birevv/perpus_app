@@ -2,6 +2,18 @@
 session_start();
 include 'koneksi.php';
 
+if (!isset($_SESSION['username'])) {
+    header("Location: index.php");
+    exit;
+}
+
+if (!in_array($_SESSION['level'] ?? '', ['admin', 'pegawai'], true)) {
+    header("Location: dashboard_pengunjung.php");
+    exit;
+}
+
+$redirect_url = (($_SESSION['level'] ?? '') === 'pegawai') ? 'peminjaman.php' : 'peminjaman.php';
+
 $id_peminjaman = mysqli_real_escape_string($koneksi, $_POST['id_peminjaman']);
 $id_anggota = mysqli_real_escape_string($koneksi, $_POST['id_anggota']);
 $isbn = mysqli_real_escape_string($koneksi, $_POST['isbn']);
@@ -39,7 +51,7 @@ VALUES
 
 if (mysqli_query($koneksi, $query)) {
     mysqli_commit($koneksi);
-    header("Location: peminjaman.php");
+    header("Location: $redirect_url");
     exit;
 } else {
     mysqli_rollback($koneksi);

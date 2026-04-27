@@ -5,6 +5,17 @@ if (!isset($_SESSION['username'])) {
     exit;
 }
 
+if (($_SESSION['level'] ?? '') !== 'admin') {
+    if (($_SESSION['level'] ?? '') === 'pegawai') {
+        header("Location: buku_pegawai.php");
+    } elseif (($_SESSION['level'] ?? '') === 'user') {
+        header("Location: buku_pengunjung.php");
+    } else {
+        header("Location: index.php");
+    }
+    exit;
+}
+
 ?>
 
 <!DOCTYPE html>

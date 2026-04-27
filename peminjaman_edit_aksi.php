@@ -2,6 +2,16 @@
 session_start();
 include 'koneksi.php';
 
+if (!isset($_SESSION['username'])) {
+    header("Location: index.php");
+    exit;
+}
+
+if (!in_array($_SESSION['level'] ?? '', ['admin', 'pegawai'], true)) {
+    header("Location: dashboard_pengunjung.php");
+    exit;
+}
+
 $id_peminjaman = mysqli_real_escape_string($koneksi, $_POST['id_peminjaman']);
 $tgl_pinjam = mysqli_real_escape_string($koneksi, $_POST['tgl_pinjam']);
 

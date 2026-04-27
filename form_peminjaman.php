@@ -5,9 +5,15 @@ if (!isset($_SESSION['username'])) {
     exit;
 }
 
+if (!in_array($_SESSION['level'] ?? '', ['admin', 'pegawai'], true)) {
+    header("Location: dashboard_pengunjung.php");
+    exit;
+}
+
 include 'koneksi.php';
 $buku = mysqli_query($koneksi, "SELECT * FROM buku WHERE stok > 0 ORDER BY judul ASC");
 $anggota = mysqli_query($koneksi, "SELECT * FROM anggota");
+$back_url = (($_SESSION['level'] ?? '') === 'pegawai') ? 'dashboard_pegawai.php' : 'peminjaman.php';
 ?>
 
 <!DOCTYPE html>
@@ -72,7 +78,7 @@ $anggota = mysqli_query($koneksi, "SELECT * FROM anggota");
 
             <div class="form-action">
                 <button type="submit" class="btn-submit">Simpan Peminjaman</button>
-                <a href="peminjaman.php" class="btn-back">Kembali</a>
+                <a href="<?= $back_url; ?>" class="btn-back">Kembali</a>
             </div>
 
         </form>
