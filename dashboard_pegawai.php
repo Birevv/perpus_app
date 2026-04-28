@@ -41,126 +41,130 @@ $recent = mysqli_query(
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=admin-dashboard-4">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet">
     <title>Dashboard Pegawai - Library</title>
 </head>
 
-<body>
-    <aside>
-        <h1>Library</h1>
-        <ul class="sidebar-menu">
-            <li><a href="dashboard_pegawai.php" class="active">Dashboard</a></li>
-            <li><a href="buku_pegawai.php">Buku</a></li>
-            <li><a href="peminjaman.php">Peminjaman</a></li>
-            <li><a href="logout.php">Logout</a></li>
+<body class="admin-dashboard-body">
+    <aside class="admin-sidebar">
+        <div class="admin-brand">
+            <span class="admin-brand-icon icon-book"></span>
+            <div>
+                <h1>E Library</h1>
+                <span>Staff Panel</span>
+            </div>
+        </div>
+
+        <ul class="admin-menu">
+            <li><a href="dashboard_pegawai.php" class="active"><span class="menu-icon icon-dashboard"></span>Dashboard</a></li>
+            <li><a href="buku_pegawai.php"><span class="menu-icon icon-book"></span>Data Buku</a></li>
+            <li><a href="peminjaman.php"><span class="menu-icon icon-transfer"></span>Peminjaman</a></li>
         </ul>
+
+        <a href="logout.php" class="admin-logout"><span class="menu-icon icon-logout"></span>Logout</a>
     </aside>
 
-    <main>
-        <div class="main">
-            <h2>Dashboard Pegawai</h2>
-            <p class="dashboard-intro">Selamat datang, <?= htmlspecialchars($_SESSION['username']); ?>. Di sini Anda bisa melihat koleksi buku dan mengelola transaksi peminjaman.</p>
-
-            <div class="tombol-tambah dashboard-actions">
-                <a href="form_peminjaman.php" class="btn-tambah">Tambah Peminjaman</a>
-                <a href="buku_pegawai.php" class="btn-tambah">Lihat Buku</a>
-                <a href="peminjaman.php" class="btn-tambah">Data Peminjaman</a>
+    <main class="admin-main">
+        <header class="admin-topbar">
+            <div class="admin-top-actions">
+                <button type="button" aria-label="Notifikasi" class="top-icon icon-bell"></button>
+                <button type="button" aria-label="Bantuan">?</button>
+                <div class="admin-avatar"><?= strtoupper(substr($_SESSION['username'], 0, 1)); ?></div>
             </div>
+        </header>
 
-            <section class="dashboard-section">
-                <h3>Ringkasan</h3>
-                <div class="dashboard-mini-stats">
-                    <div class="mini-stat">
-                        <span class="mini-stat-label">Total Buku</span>
-                        <strong class="mini-stat-value"><?= $total_buku; ?></strong>
-                    </div>
-                    <div class="mini-stat">
-                        <span class="mini-stat-label">Stok Tersedia</span>
-                        <strong class="mini-stat-value"><?= $stok_tersedia; ?></strong>
-                    </div>
-                    <div class="mini-stat">
-                        <span class="mini-stat-label">Total Peminjaman</span>
-                        <strong class="mini-stat-value"><?= $total_peminjaman; ?></strong>
-                    </div>
-                    <div class="mini-stat">
-                        <span class="mini-stat-label">Peminjaman Aktif</span>
-                        <strong class="mini-stat-value"><?= $peminjaman_aktif; ?></strong>
-                    </div>
-                    <div class="mini-stat">
-                        <span class="mini-stat-label">Sudah Kembali</span>
-                        <strong class="mini-stat-value"><?= $peminjaman_selesai; ?></strong>
-                    </div>
-                </div>
+        <div class="admin-content">
+            <section class="admin-title-row">
+                <h2>Dashboard Pegawai</h2>
+                <p>Selamat datang, <?= htmlspecialchars($_SESSION['username']); ?>. Kelola transaksi peminjaman dan pantau ketersediaan koleksi.</p>
             </section>
 
-            <div class="dashboard-grid">
-                <section class="dashboard-section dashboard-section-wide">
-                    <div class="section-header">
-                        <h3>Peminjaman Terakhir</h3>
-                        <a href="peminjaman.php" class="btn-view-all">Lihat Semua</a>
+            <section class="admin-stat-grid">
+                <a href="buku_pegawai.php" class="admin-stat-card">
+                    <div class="admin-stat-top">
+                        <span class="admin-stat-icon icon-book"></span>
+                        <span class="admin-stat-pill positive">Koleksi</span>
                     </div>
+                    <span class="admin-stat-label">Total Buku</span>
+                    <strong><?= number_format((int) $total_buku, 0, ',', '.'); ?></strong>
+                </a>
 
-                    <table border="1" cellpadding="10" cellspacing="0" class="tabel dashboard-simple-table">
+                <a href="buku_pegawai.php" class="admin-stat-card">
+                    <div class="admin-stat-top">
+                        <span class="admin-stat-icon icon-stock"></span>
+                        <span class="admin-stat-pill positive">Tersedia</span>
+                    </div>
+                    <span class="admin-stat-label">Stok Tersedia</span>
+                    <strong><?= number_format((int) $stok_tersedia, 0, ',', '.'); ?></strong>
+                </a>
+
+                <a href="peminjaman.php" class="admin-stat-card">
+                    <div class="admin-stat-top">
+                        <span class="admin-stat-icon icon-history"></span>
+                        <span class="admin-stat-pill positive">Transaksi</span>
+                    </div>
+                    <span class="admin-stat-label">Total Peminjaman</span>
+                    <strong><?= number_format((int) $total_peminjaman, 0, ',', '.'); ?></strong>
+                </a>
+
+                <a href="peminjaman.php" class="admin-stat-card active">
+                    <div class="admin-stat-top">
+                        <span class="admin-stat-icon icon-transfer"></span>
+                        <span class="admin-stat-pill light">Active Now</span>
+                    </div>
+                    <span class="admin-stat-label">Peminjaman Aktif</span>
+                    <strong><?= number_format((int) $peminjaman_aktif, 0, ',', '.'); ?></strong>
+                </a>
+            </section>
+
+            <div class="staff-dashboard-actions">
+                <a href="form_peminjaman.php" class="admin-add-btn">+ Tambah Peminjaman</a>
+                <a href="buku_pegawai.php" class="visitor-action-btn secondary"><span class="menu-icon icon-book"></span>Lihat Buku</a>
+                <a href="peminjaman.php" class="visitor-action-btn secondary"><span class="menu-icon icon-transfer"></span>Data Peminjaman</a>
+            </div>
+
+            <section class="admin-table-card">
+                <div class="admin-section-header">
+                    <h3>Peminjaman Terakhir</h3>
+                    <a href="peminjaman.php">View All →</a>
+                </div>
+
+                <table class="admin-recent-table">
+                    <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Peminjam</th>
                             <th>Judul Buku</th>
+                            <th>Peminjam</th>
                             <th>Tanggal Pinjam</th>
                             <th>Status</th>
                         </tr>
-                        <?php if (mysqli_num_rows($recent) > 0): ?>
-                            <?php while ($row = mysqli_fetch_assoc($recent)): ?>
-                                <tr>
-                                    <td><?= htmlspecialchars($row['id_peminjaman']); ?></td>
-                                    <td><?= htmlspecialchars($row['nama'] ?? '-'); ?></td>
-                                    <td><?= htmlspecialchars($row['judul'] ?? '-'); ?></td>
-                                    <td><?= htmlspecialchars($row['tgl_pinjam']); ?></td>
-                                    <td>
-                                        <span class="status-badge status-<?= strtolower($row['status'] ?? 'unknown'); ?>">
-                                            <?= htmlspecialchars($row['status'] ?? '-'); ?>
-                                        </span>
-                                    </td>
-                                </tr>
-                            <?php endwhile; ?>
-                        <?php else: ?>
+                    </thead>
+                    <tbody>
+                    <?php if (mysqli_num_rows($recent) > 0): ?>
+                        <?php while ($row = mysqli_fetch_assoc($recent)): ?>
                             <tr>
-                                <td colspan="5" class="dashboard-empty">Belum ada data peminjaman</td>
+                                <td><?= htmlspecialchars($row['id_peminjaman']); ?></td>
+                                <td><?= htmlspecialchars($row['judul'] ?? '-'); ?></td>
+                                <td><?= htmlspecialchars($row['nama'] ?? '-'); ?></td>
+                                <td><?= htmlspecialchars($row['tgl_pinjam']); ?></td>
+                                <td>
+                                    <span class="admin-status status-<?= strtolower($row['status'] ?: 'dipinjam'); ?>">
+                                        <?= htmlspecialchars($row['status'] ?: 'Dipinjam'); ?>
+                                    </span>
+                                </td>
                             </tr>
-                        <?php endif; ?>
-                    </table>
-                </section>
-
-                <div class="dashboard-sidebar-stack">
-                    <section class="dashboard-section">
-                        <h3>Akses Cepat</h3>
-                        <div class="quick-actions dashboard-quick-actions">
-                            <a href="buku_pegawai.php" class="quick-action-btn">
-                                <span class="qa-icon">BK</span>
-                                <span>Lihat Buku</span>
-                            </a>
-                            <a href="form_peminjaman.php" class="quick-action-btn">
-                                <span class="qa-icon">PJ</span>
-                                <span>Tambah Peminjaman</span>
-                            </a>
-                            <a href="peminjaman.php" class="quick-action-btn">
-                                <span class="qa-icon">DT</span>
-                                <span>Data Peminjaman</span>
-                            </a>
-                            <a href="logout.php" class="quick-action-btn">
-                                <span class="qa-icon">LO</span>
-                                <span>Logout</span>
-                            </a>
-                        </div>
-                    </section>
-                </div>
-            </div>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="5" class="dashboard-empty">Belum ada data peminjaman</td>
+                        </tr>
+                    <?php endif; ?>
+                    </tbody>
+                </table>
+            </section>
         </div>
     </main>
-
-    <footer>
-        &copy; 2025 Bima Revan Saputra XI RPL 2
-    </footer>
 </body>
 
 </html>

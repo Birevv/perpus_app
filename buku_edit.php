@@ -23,9 +23,10 @@ if (($_SESSION['level'] ?? '') !== 'admin') {
     <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="crud-body">
-    <main class="crud-container">
+<body class="crud-body book-form-page">
+    <main class="crud-container book-form-container">
         <h1>Edit Data Buku</h1>
+        <p class="form-subtitle">Perbarui informasi buku agar data katalog tetap akurat.</p>
 
         <?php
         include 'koneksi.php';
@@ -34,33 +35,44 @@ if (($_SESSION['level'] ?? '') !== 'admin') {
         $data = mysqli_fetch_assoc($query);
         ?>
 
-        <form action="buku_edit_aksi.php" method="post" class="crud-form">
+        <form action="buku_edit_aksi.php" method="post" class="crud-form book-form">
+            <div class="book-form-grid">
+                <div class="form-group">
+                    <label for="isbn">ISBN</label>
+                    <input type="text" id="isbn" name="isbn" value="<?= $data['isbn']; ?>" readonly>
+                    <small class="field-hint">ISBN dipakai sebagai kode utama buku.</small>
+                </div>
 
-            <input type="hidden" name="isbn" value="<?= $data['isbn']; ?>">
+                <div class="form-group">
+                    <label for="stok">Stok</label>
+                    <input type="number" id="stok" name="stok" value="<?= (int) $data['stok']; ?>" min="0" required>
+                    <small class="field-hint">Jumlah buku yang tersedia untuk dipinjam.</small>
+                </div>
 
-            <div class="form-group">
-                <label>Judul Buku</label>
-                <input type="text" name="judul" value="<?= $data['judul']; ?>" required>
-            </div>
+                <div class="form-group full-width">
+                    <label for="judul">Judul Buku</label>
+                    <input type="text" id="judul" name="judul" value="<?= $data['judul']; ?>" required>
+                </div>
 
-            <div class="form-group">
-                <label>Pengarang</label>
-                <input type="text" name="pengarang" value="<?= $data['pengarang']; ?>" required>
-            </div>
+                <div class="form-group">
+                    <label for="pengarang">Pengarang</label>
+                    <input type="text" id="pengarang" name="pengarang" value="<?= $data['pengarang']; ?>" required>
+                </div>
 
-            <div class="form-group">
-                <label>Penerbit</label>
-                <input type="text" name="penerbit" value="<?= $data['penerbit']; ?>" required>
-            </div>
+                <div class="form-group">
+                    <label for="genre">Genre</label>
+                    <input type="text" id="genre" name="genre" value="<?= $data['genre']; ?>" required>
+                </div>
 
-            <div class="form-group">
-                <label>Tahun</label>
-                <input type="text" name="tahun" value="<?= $data['tahun']; ?>" required>
-            </div>
+                <div class="form-group">
+                    <label for="penerbit">Penerbit</label>
+                    <input type="text" id="penerbit" name="penerbit" value="<?= $data['penerbit']; ?>" required>
+                </div>
 
-            <div class="form-group">
-                <label>Genre</label>
-                <input type="text" name="genre" value="<?= $data['genre']; ?>" required>
+                <div class="form-group">
+                    <label for="tahun">Tahun Terbit</label>
+                    <input type="number" id="tahun" name="tahun" value="<?= $data['tahun']; ?>" min="1900" max="<?= date('Y'); ?>" required>
+                </div>
             </div>
 
             <div class="form-action">

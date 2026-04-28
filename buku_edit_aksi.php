@@ -11,14 +11,15 @@ if (($_SESSION['level'] ?? '') !== 'admin') {
 }
 
 include 'koneksi.php';
-$isbn = $_POST['isbn'];
-$judul = $_POST['judul'];
-$pengarang = $_POST['pengarang'];
-$penerbit = $_POST['penerbit'];
-$tahun = $_POST['tahun'];
-$genre = $_POST['genre'];
+$isbn = mysqli_real_escape_string($koneksi, $_POST['isbn']);
+$judul = mysqli_real_escape_string($koneksi, $_POST['judul']);
+$pengarang = mysqli_real_escape_string($koneksi, $_POST['pengarang']);
+$penerbit = mysqli_real_escape_string($koneksi, $_POST['penerbit']);
+$tahun = mysqli_real_escape_string($koneksi, $_POST['tahun']);
+$genre = mysqli_real_escape_string($koneksi, $_POST['genre']);
+$stok = (int) $_POST['stok'];
 
-mysqli_query($koneksi, "UPDATE buku SET judul='$judul', pengarang='$pengarang', penerbit='$penerbit', tahun='$tahun', genre='$genre' WHERE isbn='$isbn'");
+mysqli_query($koneksi, "UPDATE buku SET judul='$judul', pengarang='$pengarang', penerbit='$penerbit', tahun='$tahun', genre='$genre', stok='$stok' WHERE isbn='$isbn'");
 
 header("location:buku.php?pesan=update");
 ?>

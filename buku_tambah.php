@@ -57,7 +57,7 @@ if (($_SESSION['level'] ?? '') !== 'admin') {
                     <input type="text" id="genre" name="genre" placeholder="Contoh: Novel, Sejarah, Teknologi" required>
                 </div>
 
-                <div class="form-group full-width">
+                <div class="form-group">
                     <label for="penerbit">Penerbit</label>
                     <input type="text" id="penerbit" name="penerbit" placeholder="Nama penerbit" required>
                 </div>
