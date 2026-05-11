@@ -17,6 +17,9 @@ if (($_SESSION['level'] ?? '') !== 'admin') {
 }
 
 include 'koneksi.php';
+include 'anggota_schema.php';
+
+ensure_anggota_gender_column($koneksi);
 
 $keyword = trim($_GET['q'] ?? '');
 $keyword_escaped = mysqli_real_escape_string($koneksi, $keyword);
@@ -26,6 +29,7 @@ if ($keyword !== '') {
     $where_pengunjung = "WHERE id_anggota LIKE '%$keyword_escaped%'
         OR nama LIKE '%$keyword_escaped%'
         OR NIP_NIS LIKE '%$keyword_escaped%'
+        OR gender LIKE '%$keyword_escaped%'
         OR alamat LIKE '%$keyword_escaped%'
         OR no_hp LIKE '%$keyword_escaped%'";
 }
@@ -38,7 +42,7 @@ $page = min($page, $total_pages);
 $offset = ($page - 1) * $per_page;
 $query_string = $keyword !== '' ? '&q=' . urlencode($keyword) : '';
 
-$query = mysqli_query($koneksi, "SELECT * FROM anggota $where_pengunjung ORDER BY nama ASC LIMIT $per_page OFFSET $offset");
+$query = mysqli_query($koneksi, "SELECT * FROM anggota $where_pengunjung ORDER BY CAST(id_anggota AS UNSIGNED) ASC, id_anggota ASC LIMIT $per_page OFFSET $offset");
 ?>
 
 <!DOCTYPE html>
@@ -67,6 +71,7 @@ $query = mysqli_query($koneksi, "SELECT * FROM anggota $where_pengunjung ORDER B
             <li><a href="buku.php"><span class="menu-icon icon-book"></span>Data Buku</a></li>
             <li><a href="pegawai.php"><span class="menu-icon icon-briefcase"></span>Data Pegawai</a></li>
             <li><a href="pengunjung.php" class="active"><span class="menu-icon icon-users"></span>Data Pengunjung</a></li>
+            <li><a href="user.php"><span class="menu-icon icon-users"></span>Data User</a></li>
             <li><a href="peminjaman.php"><span class="menu-icon icon-transfer"></span>Peminjaman</a></li>
         </ul>
 
@@ -100,6 +105,7 @@ $query = mysqli_query($koneksi, "SELECT * FROM anggota $where_pengunjung ORDER B
                             <th>ID Anggota</th>
                             <th>Nama</th>
                             <th>NIP/NIS</th>
+                            <th>Gender</th>
                             <th>Alamat</th>
                             <th>No HP</th>
                             <th>Aksi</th>
@@ -112,6 +118,7 @@ $query = mysqli_query($koneksi, "SELECT * FROM anggota $where_pengunjung ORDER B
                                     <td><?= htmlspecialchars($data['id_anggota']); ?></td>
                                     <td class="admin-table-title"><?= htmlspecialchars($data['nama']); ?></td>
                                     <td><?= htmlspecialchars($data['NIP_NIS']); ?></td>
+                                    <td><?= htmlspecialchars($data['gender'] ?: '-'); ?></td>
                                     <td><?= htmlspecialchars($data['alamat']); ?></td>
                                     <td><?= htmlspecialchars($data['no_hp']); ?></td>
                                     <td>
@@ -124,7 +131,7 @@ $query = mysqli_query($koneksi, "SELECT * FROM anggota $where_pengunjung ORDER B
                             <?php endwhile; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="6" class="dashboard-empty">Data pengunjung belum ditemukan.</td>
+                                <td colspan="7" class="dashboard-empty">Data pengunjung belum ditemukan.</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>

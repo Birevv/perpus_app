@@ -30,9 +30,12 @@ if (($_SESSION['level'] ?? '') !== 'admin') {
 
         <?php
         include 'koneksi.php';
-        $isbn = $_GET['isbn'];
+        include 'genre_options.php';
+
+        $isbn = mysqli_real_escape_string($koneksi, $_GET['isbn']);
         $query = mysqli_query($koneksi, "SELECT * FROM buku WHERE isbn='$isbn'");
         $data = mysqli_fetch_assoc($query);
+        $genre_options = get_genre_options($koneksi);
         ?>
 
         <form action="buku_edit_aksi.php" method="post" class="crud-form book-form">
@@ -61,7 +64,14 @@ if (($_SESSION['level'] ?? '') !== 'admin') {
 
                 <div class="form-group">
                     <label for="genre">Genre</label>
-                    <input type="text" id="genre" name="genre" value="<?= $data['genre']; ?>" required>
+                    <select id="genre" name="genre" required>
+                        <option value="" disabled>Pilih genre buku</option>
+                        <?php foreach ($genre_options as $genre): ?>
+                            <option value="<?= htmlspecialchars($genre); ?>" <?= $data['genre'] === $genre ? 'selected' : ''; ?>>
+                                <?= htmlspecialchars($genre); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
 
                 <div class="form-group">

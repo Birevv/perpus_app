@@ -11,11 +11,24 @@ if (($_SESSION['level'] ?? '') !== 'admin') {
 }
 
 include 'koneksi.php';
+include 'anggota_schema.php';
+
+ensure_anggota_gender_column($koneksi);
+
 $id_anggota = $_POST['id_anggota'];
 $nama = $_POST['nama'];
 $NIP_NIS = $_POST['NIP_NIS'];
+$gender = $_POST['gender'];
 $alamat = $_POST['alamat'];
 $no_hp = $_POST['no_hp'];
 
-mysqli_query($koneksi, "INSERT INTO anggota VALUES ('$id_anggota','$nama','$NIP_NIS','$alamat','$no_hp')");
+if (!in_array($gender, ['Laki-laki', 'Perempuan'], true)) {
+    die('Gender tidak valid.');
+}
+
+mysqli_query(
+    $koneksi,
+    "INSERT INTO anggota (id_anggota, nama, NIP_NIS, gender, alamat, no_hp)
+     VALUES ('$id_anggota','$nama','$NIP_NIS','$gender','$alamat','$no_hp')"
+);
 header("location:pengunjung.php?pesan=input");

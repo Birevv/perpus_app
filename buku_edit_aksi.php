@@ -11,12 +11,19 @@ if (($_SESSION['level'] ?? '') !== 'admin') {
 }
 
 include 'koneksi.php';
+include 'genre_options.php';
+
+$genre = trim($_POST['genre'] ?? '');
+if (!is_valid_genre($koneksi, $genre)) {
+    die('Genre tidak valid.');
+}
+
 $isbn = mysqli_real_escape_string($koneksi, $_POST['isbn']);
 $judul = mysqli_real_escape_string($koneksi, $_POST['judul']);
 $pengarang = mysqli_real_escape_string($koneksi, $_POST['pengarang']);
 $penerbit = mysqli_real_escape_string($koneksi, $_POST['penerbit']);
 $tahun = mysqli_real_escape_string($koneksi, $_POST['tahun']);
-$genre = mysqli_real_escape_string($koneksi, $_POST['genre']);
+$genre = mysqli_real_escape_string($koneksi, $genre);
 $stok = (int) $_POST['stok'];
 
 mysqli_query($koneksi, "UPDATE buku SET judul='$judul', pengarang='$pengarang', penerbit='$penerbit', tahun='$tahun', genre='$genre', stok='$stok' WHERE isbn='$isbn'");

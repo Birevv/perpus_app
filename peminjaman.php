@@ -82,6 +82,7 @@ $query = mysqli_query(
             <?php if (!$is_pegawai): ?>
                 <li><a href="pegawai.php"><span class="menu-icon icon-briefcase"></span>Data Pegawai</a></li>
                 <li><a href="pengunjung.php"><span class="menu-icon icon-users"></span>Data Pengunjung</a></li>
+                <li><a href="user.php"><span class="menu-icon icon-users"></span>Data User</a></li>
             <?php endif; ?>
             <li><a href="peminjaman.php" class="active"><span class="menu-icon icon-transfer"></span>Peminjaman</a></li>
         </ul>

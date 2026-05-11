@@ -17,7 +17,7 @@ if (($_SESSION['level'] ?? '') !== 'admin') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Buku</title>
+    <title>Tambah User</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
@@ -25,13 +25,12 @@ if (($_SESSION['level'] ?? '') !== 'admin') {
 
 <body class="crud-body">
     <main class="crud-container">
-        <h1>Tambah Data Pengunjung</h1>
+        <h1>Tambah Data User</h1>
 
-        <form action="pengunjung_tambah_aksi.php" method="post" class="crud-form">
-
+        <form action="user_tambah_aksi.php" method="post" class="crud-form">
             <div class="form-group">
-                <label for="id_anggota">ID Anggota</label>
-                <input type="text" id="id_anggota" name="id_anggota" placeholder="ID Anggota" required>
+                <label for="id_user">ID User</label>
+                <input type="text" id="id_user" name="id_user" placeholder="Contoh: 004" required>
             </div>
 
             <div class="form-group">
@@ -40,34 +39,29 @@ if (($_SESSION['level'] ?? '') !== 'admin') {
             </div>
 
             <div class="form-group">
-                <label for="NIP_NIS">NIP/NIS</label>
-                <input type="text" id="NIP_NIS" name="NIP_NIS" placeholder="NIP/NIS" required>
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Username" required>
             </div>
 
             <div class="form-group">
-                <label for="gender">Gender</label>
-                <select id="gender" name="gender" required>
-                    <option value="" disabled selected>Pilih gender</option>
-                    <option value="Laki-laki">Laki-laki</option>
-                    <option value="Perempuan">Perempuan</option>
+                <label for="password">Password</label>
+                <input type="text" id="password" name="password" placeholder="Password" required>
+            </div>
+
+            <div class="form-group">
+                <label for="level">Level</label>
+                <select id="level" name="level" required>
+                    <option value="" disabled selected>Pilih level</option>
+                    <option value="admin">Admin</option>
+                    <option value="pegawai">Pegawai</option>
+                    <option value="user">User</option>
                 </select>
-            </div>
-
-            <div class="form-group">
-                <label for="alamat">Alamat</label>
-                <input type="text" id="alamat" name="alamat" placeholder="Alamat" required>
-            </div>
-
-            <div class="form-group">
-                <label for="no_hp">No HP</label>
-                <input type="text" id="no_hp" name="no_hp" placeholder="No HP" required>
             </div>
 
             <div class="form-action">
                 <button type="submit" class="btn-submit">Simpan</button>
-                <a href="pengunjung.php" class="btn-back">Kembali</a>
+                <a href="user.php" class="btn-back">Kembali</a>
             </div>
-
         </form>
     </main>
 </body>

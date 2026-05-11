@@ -11,11 +11,21 @@ if (($_SESSION['level'] ?? '') !== 'admin') {
 }
 
 include 'koneksi.php';
+include 'anggota_schema.php';
+
+ensure_anggota_gender_column($koneksi);
+
 $id_anggota = $_POST['id_anggota'];
 $nama = $_POST['nama'];
 $NIP_NIS = $_POST['NIP_NIS'];
+$gender = $_POST['gender'];
 $alamat = $_POST['alamat'];
 $no_hp = $_POST['no_hp'];
-mysqli_query($koneksi, "UPDATE anggota SET nama='$nama', NIP_NIS='$NIP_NIS', alamat='$alamat', no_hp='$no_hp' WHERE id_anggota='$id_anggota'");
+
+if (!in_array($gender, ['Laki-laki', 'Perempuan'], true)) {
+    die('Gender tidak valid.');
+}
+
+mysqli_query($koneksi, "UPDATE anggota SET nama='$nama', NIP_NIS='$NIP_NIS', gender='$gender', alamat='$alamat', no_hp='$no_hp' WHERE id_anggota='$id_anggota'");
 
 header("location:pengunjung.php?pesan=update");

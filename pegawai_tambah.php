@@ -46,7 +46,11 @@ if (($_SESSION['level'] ?? '') !== 'admin') {
 
             <div class="form-group">
                 <label for="gender">Gender</label>
-                <input type="text" id="gender" name="gender" placeholder="Gender" required>
+                <select id="gender" name="gender" required>
+                    <option value="" disabled selected>Pilih gender</option>
+                    <option value="Laki-laki">Laki-laki</option>
+                    <option value="Perempuan">Perempuan</option>
+                </select>
             </div>
 
             <div class="form-action">

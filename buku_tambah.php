@@ -9,6 +9,11 @@ if (($_SESSION['level'] ?? '') !== 'admin') {
     header("Location: " . (($_SESSION['level'] ?? '') === 'pegawai' ? 'buku_pegawai.php' : 'dashboard_pengunjung.php'));
     exit;
 }
+
+include 'koneksi.php';
+include 'genre_options.php';
+
+$genre_options = get_genre_options($koneksi);
 ?>
 
 <!DOCTYPE html>
@@ -54,7 +59,12 @@ if (($_SESSION['level'] ?? '') !== 'admin') {
 
                 <div class="form-group">
                     <label for="genre">Genre</label>
-                    <input type="text" id="genre" name="genre" placeholder="Contoh: Novel, Sejarah, Teknologi" required>
+                    <select id="genre" name="genre" required>
+                        <option value="" disabled selected>Pilih genre buku</option>
+                        <?php foreach ($genre_options as $genre): ?>
+                            <option value="<?= htmlspecialchars($genre); ?>"><?= htmlspecialchars($genre); ?></option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
 
                 <div class="form-group">

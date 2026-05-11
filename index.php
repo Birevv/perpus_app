@@ -15,6 +15,7 @@ if (isset($_SESSION['username'])) {
 }
 
 $login_error = ($_GET['error'] ?? '') === 'login';
+$register_success = ($_GET['success'] ?? '') === 'register';
 ?>
 
 <!DOCTYPE html>
@@ -32,6 +33,11 @@ $login_error = ($_GET['error'] ?? '') === 'login';
     <div class="container">
         <div class="form-box" id="login-form">
             <h1>Login</h1>
+            <?php if ($register_success): ?>
+                <div class="login-alert login-alert-success" role="alert">
+                    Register berhasil! Silakan login.
+                </div>
+            <?php endif; ?>
             <?php if ($login_error): ?>
                 <div class="login-alert" role="alert">
                     Username/Password yang anda masukan salah!
@@ -42,6 +48,7 @@ $login_error = ($_GET['error'] ?? '') === 'login';
                 <input type="password" name="password" placeholder="Password" required>
                 <input type="submit" value="Login" class="btn">
             </form>
+            <p class="login-switch">Belum punya akun? <a href="register.php">Register</a></p>
         </div>
     </div>
 </body>

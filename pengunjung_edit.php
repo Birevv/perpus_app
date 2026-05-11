@@ -29,9 +29,14 @@ if (($_SESSION['level'] ?? '') !== 'admin') {
 
         <?php
         include 'koneksi.php';
+        include 'anggota_schema.php';
+
+        ensure_anggota_gender_column($koneksi);
+
         $id_anggota = $_GET['id_anggota'];
         $query = mysqli_query($koneksi, "SELECT * FROM anggota WHERE id_anggota='$id_anggota'");
         $data = mysqli_fetch_assoc($query);
+        $current_gender = $data['gender'] ?? '';
         ?>
 
         <form action="pengunjung_edit_aksi.php" method="post" class="crud-form">
@@ -46,6 +51,15 @@ if (($_SESSION['level'] ?? '') !== 'admin') {
             <div class="form-group">
                 <label>NIP/NIS</label>
                 <input type="text" name="NIP_NIS" value="<?= $data['NIP_NIS']; ?>" required>
+            </div>
+
+            <div class="form-group">
+                <label>Gender</label>
+                <select name="gender" required>
+                    <option value="" disabled <?= in_array($current_gender, ['Laki-laki', 'Perempuan'], true) ? '' : 'selected'; ?>>Pilih gender</option>
+                    <option value="Laki-laki" <?= $current_gender === 'Laki-laki' ? 'selected' : ''; ?>>Laki-laki</option>
+                    <option value="Perempuan" <?= $current_gender === 'Perempuan' ? 'selected' : ''; ?>>Perempuan</option>
+                </select>
             </div>
 
             <div class="form-group">

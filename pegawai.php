@@ -66,6 +66,7 @@ $query = mysqli_query($koneksi, "SELECT * FROM pegawai $where_pegawai ORDER BY n
             <li><a href="buku.php"><span class="menu-icon icon-book"></span>Data Buku</a></li>
             <li><a href="pegawai.php" class="active"><span class="menu-icon icon-briefcase"></span>Data Pegawai</a></li>
             <li><a href="pengunjung.php"><span class="menu-icon icon-users"></span>Data Pengunjung</a></li>
+            <li><a href="user.php"><span class="menu-icon icon-users"></span>Data User</a></li>
             <li><a href="peminjaman.php"><span class="menu-icon icon-transfer"></span>Peminjaman</a></li>
         </ul>
 

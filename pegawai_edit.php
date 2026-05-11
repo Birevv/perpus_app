@@ -32,6 +32,7 @@ if (($_SESSION['level'] ?? '') !== 'admin') {
         $nip = $_GET['nip'];
         $query = mysqli_query($koneksi, "SELECT * FROM pegawai WHERE nip='$nip'");
         $data = mysqli_fetch_assoc($query);
+        $current_gender = $data['gender'] ?? '';
         ?>
 
         <form action="pegawai_edit_aksi.php" method="post" class="crud-form">
@@ -50,7 +51,11 @@ if (($_SESSION['level'] ?? '') !== 'admin') {
 
             <div class="form-group">
                 <label>Gender</label>
-                <input type="text" name="gender" value="<?= $data['gender']; ?>" required>
+                <select name="gender" required>
+                    <option value="" disabled <?= in_array($current_gender, ['Laki-laki', 'Perempuan'], true) ? '' : 'selected'; ?>>Pilih gender</option>
+                    <option value="Laki-laki" <?= $current_gender === 'Laki-laki' ? 'selected' : ''; ?>>Laki-laki</option>
+                    <option value="Perempuan" <?= $current_gender === 'Perempuan' ? 'selected' : ''; ?>>Perempuan</option>
+                </select>
             </div>
 
             <div class="form-action">

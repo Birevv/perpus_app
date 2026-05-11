@@ -16,5 +16,9 @@ $nama = $_POST['nama'];
 $alamat = $_POST['alamat'];
 $gender = $_POST['gender'];
 
+if (!in_array($gender, ['Laki-laki', 'Perempuan'], true)) {
+    die('Gender tidak valid.');
+}
+
 mysqli_query($koneksi, "INSERT INTO pegawai VALUES ('$nip','$nama','$alamat','$gender')");
 header("location:pegawai.php?pesan=input");
