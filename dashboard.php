@@ -40,7 +40,7 @@ $recent = mysqli_query(
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css?v=admin-dashboard-4">
+    <link rel="stylesheet" href="styles.css?v=admin-dashboard-5">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <title>Dashboard - Library</title>
 </head>
@@ -71,50 +71,32 @@ $recent = mysqli_query(
         <header class="admin-topbar">
             <div class="admin-top-actions">
                 <button type="button" aria-label="Notifikasi" class="top-icon icon-bell"></button>
-                <button type="button" aria-label="Bantuan">?</button>
-                <div class="admin-avatar"><?= strtoupper(substr($_SESSION['username'], 0, 1)); ?></div>
             </div>
         </header>
 
         <div class="admin-content">
             <section class="admin-title-row">
-                <h2>Dashboard Admin</h2>
-                <p>Welcome back, here is what's happening today.</p>
+                <h2>Dashboard</h2>
+                <p>Ringkasan data perpustakaan.</p>
             </section>
 
             <section class="admin-stat-grid">
                 <a href="buku.php" class="admin-stat-card">
-                    <div class="admin-stat-top">
-                        <span class="admin-stat-icon icon-book"></span>
-                        <span class="admin-stat-pill positive">+4% this week</span>
-                    </div>
                     <span class="admin-stat-label">Total Buku</span>
                     <strong><?= number_format((int) $total_buku, 0, ',', '.'); ?></strong>
                 </a>
 
                 <a href="pengunjung.php" class="admin-stat-card">
-                    <div class="admin-stat-top">
-                        <span class="admin-stat-icon icon-users"></span>
-                        <span class="admin-stat-pill positive">+12 new</span>
-                    </div>
                     <span class="admin-stat-label">Total Anggota</span>
                     <strong><?= number_format((int) $total_anggota, 0, ',', '.'); ?></strong>
                 </a>
 
                 <a href="buku.php" class="admin-stat-card">
-                    <div class="admin-stat-top">
-                        <span class="admin-stat-icon icon-stock"></span>
-                        <span class="admin-stat-pill warning">-2% today</span>
-                    </div>
                     <span class="admin-stat-label">Stok Tersedia</span>
                     <strong><?= number_format((int) $stok_tersedia, 0, ',', '.'); ?></strong>
                 </a>
 
-                <a href="peminjaman.php" class="admin-stat-card active">
-                    <div class="admin-stat-top">
-                        <span class="admin-stat-icon icon-transfer"></span>
-                        <span class="admin-stat-pill light">Active Now</span>
-                    </div>
+                <a href="peminjaman.php" class="admin-stat-card">
                     <span class="admin-stat-label">Peminjaman Aktif</span>
                     <strong><?= number_format((int) $peminjaman_aktif, 0, ',', '.'); ?></strong>
                 </a>

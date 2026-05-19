@@ -13,6 +13,9 @@ if (!in_array($_SESSION['level'] ?? '', ['admin', 'pegawai'], true)) {
 $is_pegawai = ($_SESSION['level'] ?? '') === 'pegawai';
 
 include 'koneksi.php';
+include 'peminjaman_schema.php';
+
+ensure_peminjaman_schema($koneksi);
 
 $keyword = trim($_GET['q'] ?? '');
 $keyword_escaped = mysqli_real_escape_string($koneksi, $keyword);
@@ -24,6 +27,7 @@ if ($keyword !== '') {
         OR p.isbn LIKE '%$keyword_escaped%'
         OR a.nama LIKE '%$keyword_escaped%'
         OR b.judul LIKE '%$keyword_escaped%'
+        OR p.nama_petugas LIKE '%$keyword_escaped%'
         OR p.status LIKE '%$keyword_escaped%'";
 }
 
@@ -50,7 +54,7 @@ $query = mysqli_query(
      LEFT JOIN anggota a ON p.id_anggota = a.id_anggota
      LEFT JOIN buku b ON p.isbn = b.isbn
      $where_peminjaman
-     ORDER BY p.tgl_pinjam DESC
+     ORDER BY CAST(p.id_peminjaman AS UNSIGNED) ASC, p.id_peminjaman ASC
      LIMIT $per_page OFFSET $offset"
 );
 ?>
@@ -94,8 +98,6 @@ $query = mysqli_query(
         <header class="admin-topbar">
             <div class="admin-top-actions">
                 <button type="button" aria-label="Notifikasi" class="top-icon icon-bell"></button>
-                <button type="button" aria-label="Bantuan">?</button>
-                <div class="admin-avatar"><?= strtoupper(substr($_SESSION['username'], 0, 1)); ?></div>
             </div>
         </header>
 
@@ -121,6 +123,7 @@ $query = mysqli_query(
                             <th>Tanggal Pinjam</th>
                             <th>Tanggal Kembali</th>
                             <th>Status</th>
+                            <th>Petugas</th>
                             <th>Aksi</th>
                             <th>Opsi</th>
                         </tr>
@@ -140,6 +143,7 @@ $query = mysqli_query(
                                             <?= htmlspecialchars($data['status'] ?: 'Dipinjam'); ?>
                                         </span>
                                     </td>
+                                    <td><?= htmlspecialchars($data['nama_petugas'] ?: '-'); ?></td>
                                     <td>
                                         <div class="admin-table-actions">
                                             <a href="peminjaman_edit.php?id_peminjaman=<?= urlencode($data['id_peminjaman']); ?>" class="admin-icon-action edit">Edit</a>
@@ -160,7 +164,7 @@ $query = mysqli_query(
                             <?php endwhile; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="9" class="dashboard-empty">Data peminjaman belum ditemukan.</td>
+                                <td colspan="10" class="dashboard-empty">Data peminjaman belum ditemukan.</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>

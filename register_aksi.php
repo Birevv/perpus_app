@@ -2,6 +2,7 @@
 session_start();
 include 'koneksi.php';
 include 'anggota_schema.php';
+include 'id_generator.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header("Location: register.php");
@@ -9,29 +10,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 ensure_anggota_gender_column($koneksi);
-
-function generate_next_code($koneksi, $table, $field, $length)
-{
-    $query = mysqli_query(
-        $koneksi,
-        "SELECT `$field` AS kode FROM `$table` ORDER BY CAST(`$field` AS UNSIGNED) DESC, `$field` DESC LIMIT 1"
-    );
-    $next_number = 1;
-
-    if ($query && mysqli_num_rows($query) > 0) {
-        $row = mysqli_fetch_assoc($query);
-        $next_number = ((int) $row['kode']) + 1;
-    }
-
-    do {
-        $code = str_pad((string) $next_number, $length, '0', STR_PAD_LEFT);
-        $safe_code = mysqli_real_escape_string($koneksi, $code);
-        $exists = mysqli_query($koneksi, "SELECT `$field` FROM `$table` WHERE `$field`='$safe_code' LIMIT 1");
-        $next_number++;
-    } while ($exists && mysqli_num_rows($exists) > 0);
-
-    return $code;
-}
 
 $username = trim($_POST['username'] ?? '');
 $NIP_NIS = trim($_POST['NIP_NIS'] ?? '');

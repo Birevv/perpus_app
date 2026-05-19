@@ -29,11 +29,6 @@ if (($_SESSION['level'] ?? '') !== 'admin') {
 
         <form action="user_tambah_aksi.php" method="post" class="crud-form">
             <div class="form-group">
-                <label for="id_user">ID User</label>
-                <input type="text" id="id_user" name="id_user" placeholder="Contoh: 004" required>
-            </div>
-
-            <div class="form-group">
                 <label for="nama">Nama</label>
                 <input type="text" id="nama" name="nama" placeholder="Nama" required>
             </div>

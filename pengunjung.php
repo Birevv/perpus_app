@@ -42,7 +42,7 @@ $page = min($page, $total_pages);
 $offset = ($page - 1) * $per_page;
 $query_string = $keyword !== '' ? '&q=' . urlencode($keyword) : '';
 
-$query = mysqli_query($koneksi, "SELECT * FROM anggota $where_pengunjung ORDER BY CAST(id_anggota AS UNSIGNED) ASC, id_anggota ASC LIMIT $per_page OFFSET $offset");
+$query = mysqli_query($koneksi, "SELECT * FROM anggota $where_pengunjung ORDER BY CAST(id_anggota AS UNSIGNED) DESC, id_anggota DESC LIMIT $per_page OFFSET $offset");
 ?>
 
 <!DOCTYPE html>
@@ -82,8 +82,6 @@ $query = mysqli_query($koneksi, "SELECT * FROM anggota $where_pengunjung ORDER B
         <header class="admin-topbar">
             <div class="admin-top-actions">
                 <button type="button" aria-label="Notifikasi" class="top-icon icon-bell"></button>
-                <button type="button" aria-label="Bantuan">?</button>
-                <div class="admin-avatar"><?= strtoupper(substr($_SESSION['username'], 0, 1)); ?></div>
             </div>
         </header>
 

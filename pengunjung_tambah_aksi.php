@@ -15,12 +15,12 @@ include 'anggota_schema.php';
 
 ensure_anggota_gender_column($koneksi);
 
-$id_anggota = $_POST['id_anggota'];
-$nama = $_POST['nama'];
-$NIP_NIS = $_POST['NIP_NIS'];
-$gender = $_POST['gender'];
-$alamat = $_POST['alamat'];
-$no_hp = $_POST['no_hp'];
+$id_anggota = mysqli_real_escape_string($koneksi, $_POST['id_anggota'] ?? '');
+$nama = mysqli_real_escape_string($koneksi, $_POST['nama'] ?? '');
+$NIP_NIS = mysqli_real_escape_string($koneksi, $_POST['NIP_NIS'] ?? '');
+$gender = mysqli_real_escape_string($koneksi, $_POST['gender'] ?? '');
+$alamat = mysqli_real_escape_string($koneksi, $_POST['alamat'] ?? '');
+$no_hp = mysqli_real_escape_string($koneksi, $_POST['no_hp'] ?? '');
 
 if (!in_array($gender, ['Laki-laki', 'Perempuan'], true)) {
     die('Gender tidak valid.');

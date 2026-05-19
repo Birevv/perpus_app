@@ -17,13 +17,17 @@ if (($_SESSION['level'] ?? '') !== 'admin') {
 }
 
 include 'koneksi.php';
+include 'pegawai_schema.php';
+
+ensure_pegawai_id_column($koneksi);
 
 $keyword = trim($_GET['q'] ?? '');
 $keyword_escaped = mysqli_real_escape_string($koneksi, $keyword);
 $where_pegawai = '';
 
 if ($keyword !== '') {
-    $where_pegawai = "WHERE nip LIKE '%$keyword_escaped%'
+    $where_pegawai = "WHERE id_pegawai LIKE '%$keyword_escaped%'
+        OR nip LIKE '%$keyword_escaped%'
         OR nama LIKE '%$keyword_escaped%'
         OR alamat LIKE '%$keyword_escaped%'
         OR gender LIKE '%$keyword_escaped%'";
@@ -37,7 +41,7 @@ $page = min($page, $total_pages);
 $offset = ($page - 1) * $per_page;
 $query_string = $keyword !== '' ? '&q=' . urlencode($keyword) : '';
 
-$query = mysqli_query($koneksi, "SELECT * FROM pegawai $where_pegawai ORDER BY nama ASC LIMIT $per_page OFFSET $offset");
+$query = mysqli_query($koneksi, "SELECT * FROM pegawai $where_pegawai ORDER BY CAST(id_pegawai AS UNSIGNED) DESC, id_pegawai DESC LIMIT $per_page OFFSET $offset");
 ?>
 
 <!DOCTYPE html>
@@ -77,8 +81,6 @@ $query = mysqli_query($koneksi, "SELECT * FROM pegawai $where_pegawai ORDER BY n
         <header class="admin-topbar">
             <div class="admin-top-actions">
                 <button type="button" aria-label="Notifikasi" class="top-icon icon-bell"></button>
-                <button type="button" aria-label="Bantuan">?</button>
-                <div class="admin-avatar"><?= strtoupper(substr($_SESSION['username'], 0, 1)); ?></div>
             </div>
         </header>
 
@@ -97,6 +99,7 @@ $query = mysqli_query($koneksi, "SELECT * FROM pegawai $where_pegawai ORDER BY n
                 <table class="admin-data-table">
                     <thead>
                         <tr>
+                            <th>ID Pegawai</th>
                             <th>NIP</th>
                             <th>Nama</th>
                             <th>Alamat</th>
@@ -108,6 +111,7 @@ $query = mysqli_query($koneksi, "SELECT * FROM pegawai $where_pegawai ORDER BY n
                         <?php if ($total_data > 0): ?>
                             <?php while ($data = mysqli_fetch_assoc($query)): ?>
                                 <tr>
+                                    <td><?= htmlspecialchars($data['id_pegawai']); ?></td>
                                     <td><?= htmlspecialchars($data['nip']); ?></td>
                                     <td class="admin-table-title"><?= htmlspecialchars($data['nama']); ?></td>
                                     <td><?= htmlspecialchars($data['alamat']); ?></td>
@@ -122,7 +126,7 @@ $query = mysqli_query($koneksi, "SELECT * FROM pegawai $where_pegawai ORDER BY n
                             <?php endwhile; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="5" class="dashboard-empty">Data pegawai belum ditemukan.</td>
+                                <td colspan="6" class="dashboard-empty">Data pegawai belum ditemukan.</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>

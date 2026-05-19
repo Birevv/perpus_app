@@ -82,8 +82,6 @@ $buku = mysqli_query(
         <header class="admin-topbar">
             <div class="admin-top-actions">
                 <button type="button" aria-label="Notifikasi" class="top-icon icon-bell"></button>
-                <button type="button" aria-label="Bantuan">?</button>
-                <div class="admin-avatar"><?= strtoupper(substr($_SESSION['username'], 0, 1)); ?></div>
             </div>
         </header>
 

@@ -11,6 +11,9 @@ if (!in_array($_SESSION['level'] ?? '', ['admin', 'pegawai'], true)) {
 }
 
 include 'koneksi.php';
+include 'peminjaman_schema.php';
+
+ensure_peminjaman_nama_petugas_column($koneksi);
 
 $id = $_GET['id_peminjaman'];
 
@@ -60,6 +63,11 @@ if (!$data) {
             <div class="form-group">
                 <label>Tanggal Kembali</label>
                 <input type="date" name="tgl_kembali" value="<?= $data['tgl_kembali']; ?>">
+            </div>
+
+            <div class="form-group">
+                <label>Petugas</label>
+                <input type="text" value="<?= htmlspecialchars($data['nama_petugas'] ?: '-'); ?>" readonly>
             </div>
 
             <div class="form-action">

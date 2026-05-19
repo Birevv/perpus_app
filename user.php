@@ -37,7 +37,7 @@ $page = min($page, $total_pages);
 $offset = ($page - 1) * $per_page;
 $query_string = $keyword !== '' ? '&q=' . urlencode($keyword) : '';
 
-$query = mysqli_query($koneksi, "SELECT id_user, nama, username, password, level FROM `user` $where_user ORDER BY CAST(id_user AS UNSIGNED) ASC, id_user ASC LIMIT $per_page OFFSET $offset");
+$query = mysqli_query($koneksi, "SELECT id_user, nama, username, password, level FROM `user` $where_user ORDER BY CAST(id_user AS UNSIGNED) DESC, id_user DESC LIMIT $per_page OFFSET $offset");
 ?>
 
 <!DOCTYPE html>
@@ -77,8 +77,6 @@ $query = mysqli_query($koneksi, "SELECT id_user, nama, username, password, level
         <header class="admin-topbar">
             <div class="admin-top-actions">
                 <button type="button" aria-label="Notifikasi" class="top-icon icon-bell"></button>
-                <button type="button" aria-label="Bantuan">?</button>
-                <div class="admin-avatar"><?= strtoupper(substr($_SESSION['username'], 0, 1)); ?></div>
             </div>
         </header>
 

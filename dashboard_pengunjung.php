@@ -59,7 +59,7 @@ if ($id_anggota !== '') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Pengunjung</title>
-    <link rel="stylesheet" href="styles.css?v=visitor-dashboard-1">
+    <link rel="stylesheet" href="styles.css?v=visitor-dashboard-2">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet">
 </head>
 
@@ -87,7 +87,6 @@ if ($id_anggota !== '') {
             <strong>Dashboard Pengunjung</strong>
             <div class="visitor-top-actions">
                 <button type="button" aria-label="Notifikasi" class="top-icon icon-bell"></button>
-                <div class="visitor-avatar"><?= strtoupper(substr($user['nama'], 0, 1)); ?></div>
             </div>
         </header>
 

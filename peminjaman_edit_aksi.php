@@ -15,7 +15,6 @@ if (!in_array($_SESSION['level'] ?? '', ['admin', 'pegawai'], true)) {
 $id_peminjaman = mysqli_real_escape_string($koneksi, $_POST['id_peminjaman']);
 $tgl_pinjam = mysqli_real_escape_string($koneksi, $_POST['tgl_pinjam']);
 
-// LOGIKA TANGGAL KEMBALI
 if (empty($_POST['tgl_kembali'])) {
     $tgl_kembali = "NULL";
     $status = 'Dipinjam';

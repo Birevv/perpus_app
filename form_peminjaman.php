@@ -11,9 +11,12 @@ if (!in_array($_SESSION['level'] ?? '', ['admin', 'pegawai'], true)) {
 }
 
 include 'koneksi.php';
+date_default_timezone_set('Asia/Bangkok');
+
 $buku = mysqli_query($koneksi, "SELECT * FROM buku WHERE stok > 0 ORDER BY judul ASC");
 $anggota = mysqli_query($koneksi, "SELECT * FROM anggota");
 $back_url = (($_SESSION['level'] ?? '') === 'pegawai') ? 'dashboard_pegawai.php' : 'peminjaman.php';
+$tanggal_hari_ini = date('Y-m-d');
 ?>
 
 <!DOCTYPE html>
@@ -33,12 +36,6 @@ $back_url = (($_SESSION['level'] ?? '') === 'pegawai') ? 'dashboard_pegawai.php'
         <h1>Form Transaksi Peminjaman</h1>
 
         <form action="simpan_peminjaman.php" method="post" class="crud-form">
-
-            <div class="form-group">
-                <label for="id_peminjaman">ID Peminjaman</label>
-                <input type="text" name="id_peminjaman" id="id_peminjaman" placeholder="ID Peminjaman" required>
-            </div>
-
             <div class="form-group">
                 <label>Judul Buku</label>
                 <select name="isbn" required>
@@ -65,12 +62,7 @@ $back_url = (($_SESSION['level'] ?? '') === 'pegawai') ? 'dashboard_pegawai.php'
 
             <div class="form-group">
                 <label>Tanggal Peminjaman</label>
-                <input type="date" name="tgl_pinjam" required>
-            </div>
-
-            <div class="form-group">
-                <label>Tanggal Kembali</label>
-                <input type="date" name="tgl_kembali">
+                <input type="date" name="tgl_pinjam" value="<?= $tanggal_hari_ini; ?>" readonly>
             </div>
 
             <!-- Petugas (Hidden) -->

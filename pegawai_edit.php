@@ -18,7 +18,6 @@ if (($_SESSION['level'] ?? '') !== 'admin') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Buku</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -29,6 +28,10 @@ if (($_SESSION['level'] ?? '') !== 'admin') {
 
         <?php
         include 'koneksi.php';
+        include 'pegawai_schema.php';
+
+        ensure_pegawai_id_column($koneksi);
+
         $nip = $_GET['nip'];
         $query = mysqli_query($koneksi, "SELECT * FROM pegawai WHERE nip='$nip'");
         $data = mysqli_fetch_assoc($query);
@@ -37,7 +40,17 @@ if (($_SESSION['level'] ?? '') !== 'admin') {
 
         <form action="pegawai_edit_aksi.php" method="post" class="crud-form">
 
-            <input type="hidden" name="nip" value="<?= $data['nip']; ?>">
+            <input type="hidden" name="old_nip" value="<?= htmlspecialchars($data['nip']); ?>">
+
+            <div class="form-group">
+                <label>ID Pegawai</label>
+                <input type="text" value="<?= htmlspecialchars($data['id_pegawai']); ?>" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>NIP</label>
+                <input type="text" name="nip" value="<?= htmlspecialchars($data['nip']); ?>" required>
+            </div>
 
             <div class="form-group">
                 <label>Nama</label>

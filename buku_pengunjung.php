@@ -77,7 +77,6 @@ $buku = mysqli_query(
             <strong>Dashboard Pengunjung</strong>
             <div class="visitor-top-actions">
                 <button type="button" aria-label="Notifikasi" class="top-icon icon-bell"></button>
-                <div class="visitor-avatar"><?= strtoupper(substr($_SESSION['username'], 0, 1)); ?></div>
             </div>
         </header>
 

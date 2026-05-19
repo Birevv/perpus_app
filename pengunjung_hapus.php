@@ -11,6 +11,8 @@ if (($_SESSION['level'] ?? '') !== 'admin') {
 }
 
 include 'koneksi.php';
+include 'peminjaman_cleanup.php';
+
 $id_anggota = mysqli_real_escape_string($koneksi, $_GET['id_anggota'] ?? '');
 $anggota_query = mysqli_query($koneksi, "SELECT * FROM anggota WHERE id_anggota='$id_anggota' LIMIT 1");
 $anggota = $anggota_query ? mysqli_fetch_assoc($anggota_query) : null;
@@ -25,7 +27,8 @@ $nama = mysqli_real_escape_string($koneksi, $anggota['nama']);
 
 mysqli_begin_transaction($koneksi);
 
-$hapus_anggota = mysqli_query($koneksi, "DELETE FROM anggota WHERE id_anggota='$id_anggota'");
+$hapus_peminjaman = hapus_peminjaman_anggota($koneksi, $id_anggota);
+$hapus_anggota = $hapus_peminjaman && mysqli_query($koneksi, "DELETE FROM anggota WHERE id_anggota='$id_anggota'");
 $hapus_user = mysqli_query(
     $koneksi,
     "DELETE FROM `user`
@@ -33,7 +36,7 @@ $hapus_user = mysqli_query(
         AND (username='$nip_nis' OR password='$nip_nis' OR nama='$nama')"
 );
 
-if (!$hapus_anggota || !$hapus_user) {
+if (!$hapus_peminjaman || !$hapus_anggota || !$hapus_user) {
     mysqli_rollback($koneksi);
     die('Gagal menghapus data pengunjung: ' . mysqli_error($koneksi));
 }

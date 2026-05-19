@@ -11,6 +11,7 @@ if (($_SESSION['level'] ?? '') !== 'admin') {
 }
 
 include 'koneksi.php';
+include 'peminjaman_cleanup.php';
 
 $id_user = mysqli_real_escape_string($koneksi, $_GET['id_user'] ?? '');
 
@@ -43,13 +44,34 @@ if (in_array($level, ['admin', 'pegawai'], true)) {
             OR nama='$nama'"
     );
 } elseif ($level === 'user') {
-    $hapus_relasi = mysqli_query(
+    $anggota_query = mysqli_query(
         $koneksi,
-        "DELETE FROM anggota
+        "SELECT id_anggota FROM anggota
          WHERE NIP_NIS='$username'
             OR NIP_NIS='$password'
             OR nama='$nama'"
     );
+
+    if (!$anggota_query) {
+        $hapus_relasi = false;
+    } else {
+        while ($anggota = mysqli_fetch_assoc($anggota_query)) {
+            if (!hapus_peminjaman_anggota($koneksi, $anggota['id_anggota'])) {
+                $hapus_relasi = false;
+                break;
+            }
+        }
+    }
+
+    if ($hapus_relasi) {
+        $hapus_relasi = mysqli_query(
+            $koneksi,
+            "DELETE FROM anggota
+             WHERE NIP_NIS='$username'
+                OR NIP_NIS='$password'
+                OR nama='$nama'"
+        );
+    }
 }
 
 $hapus_user = mysqli_query($koneksi, "DELETE FROM `user` WHERE id_user='$id_user'");
